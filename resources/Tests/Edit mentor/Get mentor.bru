@@ -1,0 +1,15 @@
+meta {
+  name: Get mentor
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://prod-team-38-u0ku5lhd.REDACTED:443/api/mentor/{{mentorId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.body.firstName: eq FirstName
+}

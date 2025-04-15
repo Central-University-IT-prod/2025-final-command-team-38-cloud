@@ -1,0 +1,30 @@
+meta {
+  name: Create mentor
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://prod-team-38-u0ku5lhd.REDACTED:443/api/mentor
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "firstName": "FirstName",
+    "lastName": "LastName",
+    "age": 30,
+    "stack": ["Java", "Spring"],
+    "email": "example@mail.ru",
+    "telegram": "@username",
+    "resources": ["https://t.me/username"],
+    "bio": "stringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstringstring",
+    "experience": 10,
+    "costPerHour": 1
+  }
+}
+
+script:post-response {
+  bru.setVar("mentorId", res.body.id);
+}

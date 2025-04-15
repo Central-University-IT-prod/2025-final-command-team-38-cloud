@@ -1,0 +1,44 @@
+services:
+  postgres_prod:
+    container_name: postgres_prod
+    image: postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER_PROD}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_PROD}
+      - PGDATA=/data/postgres
+    ports:
+      - "8040:5432"
+    volumes:
+      - ../../postgres-data:/data/postgres
+    restart: always
+
+  api:
+    container_name: api
+    build:
+      context: ../backend/.
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_JDBC_URL=REDACTED
+      - POSTGRES_USER=${POSTGRES_USER_PROD}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_PROD}
+      - ADMIN_PASSWORD_HASH=${ADMIN_PASSWORD_HASH}
+    ports:
+      - "443:8080"
+    links:
+      - postgres_prod
+    depends_on:
+      - postgres_prod
+    restart: always
+
+  web:
+    container_name: web
+    build:
+      context: ../frontend/.
+      dockerfile: Dockerfile
+    environment:
+      - VITE_BACKEND_BASE_URL=http://prod-team-38-u0ku5lhd.REDACTED:443/api
+    ports:
+      - "80:5555"
+    links:
+      - api
+    restart: always

@@ -1,0 +1,19 @@
+meta {
+  name: Approve mentor
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://prod-team-38-u0ku5lhd.REDACTED:443/api/moderator/approve
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: moderator
+}
+
+body:json {
+  {"mentorRequestId": "{{mentorId}}", "approve": true}
+}
